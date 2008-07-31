@@ -1,0 +1,33 @@
+/*
+
+Copyright (C) 2008 David B. Moffett <davidbmoffett@gmail.com>
+
+This file is part of Stocker.  A simple program to deliver stock 
+quotes to the Android platform.
+    
+Stocker is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Stocker is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Stocker.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+
+Stocker is a simple program to deliver near real time stock quotes to the
+Android platform. This project is meant to be a prototype since Google will
+probably deliver a quote program with the full release of Android.  Currently 
+the client runs on Android and makes calls to a server which runs one a slow linux 
+system over a DSL line.  If there is sufficent interest more documentation
+will follow.  Otherwise... on to new and better things.
+
+David
+davidbmoffett@gmail.com
+
