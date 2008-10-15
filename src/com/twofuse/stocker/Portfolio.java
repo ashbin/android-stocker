@@ -3,7 +3,7 @@
 Copyright (C) 2008 David B. Moffett <davidbmoffett@gmail.com>
 
 This file is part of Stocker.  A simple program to deliver stock 
-quotes to the Android platform.
+quotes to the Andriod platform.
     
 Stocker is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,10 +23,9 @@ along with Stocker.  If not, see <http://www.gnu.org/licenses/>.
 package com.twofuse.stocker;
 
 import java.lang.System;
+import java.net.URLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,22 +33,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.TimeZone;
+import android.graphics.drawable.BitmapDrawable;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.provider.Calendar;
+import android.graphics.Bitmap;
 import android.util.Log;
 import com.twofuse.stocker.Stocker;
 
@@ -59,8 +56,11 @@ public class Portfolio {
 	private static final String STATUS = "status";
 	private static final String TAG = "Stocker.Portfolio";
 	private static final String QUOTES = "quotes";
-	private static final String QURL = "http://71.33.240.149:1313/quote?sym=";
-	private static final String ADD_URL = "http://71.33.240.149:1315/add_symbol?sym=";
+	private static final String QURL = "http://doublediamond.com:1313/quote?sym=";
+	private static final String ADD_URL = "http://doublediamond.com:1315/add_symbol?sym=";
+//	private static final String QURL = "http://192.168.0.11:1313/quote?sym=";
+//	private static final String ADD_URL = "http://192.168.0.11:1315/add_symbol?sym=";
+	private static final String GRAPH_URL = "http://ichart.finance.yahoo.com/t?s=";
 	private static final String SYMBOL_FILE_NAME = "symbols.txt";
 	private int BUF_SIZE = 16384;
 	private JSONObject quoteResult;
@@ -113,10 +113,8 @@ public class Portfolio {
 
 	protected JSONObject __getQuotesForArray(ArrayList<String> stockSymbols){
 		if(stockSymbols != null && stockSymbols.size() > 0){
-			HttpClient req = new HttpClient(new MultiThreadedHttpConnectionManager());
-			GetMethod httpGet = null;
-			req.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
-			int response;
+			HttpClient req = new DefaultHttpClient();
+			// req.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
 			StringBuffer buf = new StringBuffer();
 			int index, count = stockSymbols.size();
 			buf.append(QURL);
@@ -126,23 +124,19 @@ public class Portfolio {
 				buf.append(stockSymbols.get(index));
 			}
 			try {
-				httpGet = new GetMethod(buf.toString());
-				response = req.executeMethod(httpGet);
+				HttpGet httpGet = new HttpGet(buf.toString());
+				HttpResponse response = req.execute(httpGet);
 				try {
-					InputStream iStream;
+					InputStream iStream = response.getEntity().getContent();
 					JSONObject obj;
-					iStream = httpGet.getResponseBodyAsStream();
 					obj = parseQuotesFromStream(iStream);
 					iStream.close();
 					return obj;
 				} catch ( IOException iox ){
 					iox.printStackTrace();
 				}
-			} catch (Exception usx){
+			} catch (IOException usx){
 				Log.e(TAG, usx.getMessage());
-			} finally {
-				if(httpGet != null)
-					httpGet.releaseConnection();
 			}
 		}
 		return null;
@@ -151,10 +145,8 @@ public class Portfolio {
 
 	protected void __addQuotes(ArrayList<String> stockSymbols){
 		if(stockSymbols != null && stockSymbols.size() > 0){
-			HttpClient req = new HttpClient(new MultiThreadedHttpConnectionManager());
-			GetMethod httpGet = null;
-			req.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
-			int response;
+			HttpClient req = new DefaultHttpClient();
+//			req.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
 			StringBuffer buf = new StringBuffer();
 			int index, count = stockSymbols.size();
 			buf.append(ADD_URL);
@@ -164,20 +156,16 @@ public class Portfolio {
 				buf.append(stockSymbols.get(index));
 			}
 			try {
-				httpGet = new GetMethod(buf.toString());
-				response = req.executeMethod(httpGet);
+				HttpGet httpGet = new HttpGet(buf.toString());
+				HttpResponse response = req.execute(httpGet);
 				try {
-					InputStream iStream;
-					iStream = httpGet.getResponseBodyAsStream();
+					InputStream iStream = response.getEntity().getContent();
 					iStream.close();
 				} catch ( IOException iox ){
 					iox.printStackTrace();
 				}
 			} catch (Exception usx){
 				Log.e(TAG, usx.getMessage());
-			} finally {
-				if(httpGet != null)
-					httpGet.releaseConnection();
 			}
 		}
 	}
@@ -229,8 +217,6 @@ public class Portfolio {
 		}
 	}
 
-
-
 	public synchronized void addSymbolsToPortfolio(ArrayList<String> stockList){
 		if(stockList != null){
 			if(stocks == null){ 
@@ -260,6 +246,36 @@ public class Portfolio {
 			}
 			this.savePortfolio();
 		}
+	}
+	
+	public Bitmap getChartForSymbol(String symbol){
+		try {	
+			try {
+				String symbol_str;
+				StringBuilder sb = new StringBuilder(GRAPH_URL);
+				if(symbol.charAt(0) == '.'){
+					symbol_str = symbol.replace('.', '^');
+					symbol_str = URLEncoder.encode(symbol_str);
+				} else symbol_str = symbol;
+				sb = sb.append(symbol_str);
+				Log.d(TAG, sb.toString());
+				HttpClient req = new DefaultHttpClient();
+				HttpGet httpGet = new HttpGet(sb.toString());
+				HttpResponse response = req.execute(httpGet);
+				InputStream iStream;
+				BitmapDrawable bitMap;
+				iStream = response.getEntity().getContent();
+				bitMap = new BitmapDrawable(iStream);
+				iStream.close();
+				iStream = null;
+				return bitMap.getBitmap();
+			} catch ( IOException iox ){
+				Log.d(TAG, iox.getMessage());	
+			}
+		} catch (Exception e) {
+			Log.d(TAG, e.getMessage());
+		}
+		return null;
 	}
 
 	public synchronized void refreshStocks(){
