@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:orientation="vertical"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+    
+	  <LinearLayout
+	    android:id="@+id/entry_container"	
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+        
+        <!-- Regular sized buttons -->
+        <Button android:id="@+id/button_normal"
+            android:text="@string/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button android:id="@+id/button_small_down"
+                android:text="@string/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+
+    <RelativeLayout
+    	android:id="@+id/list_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        <ListView android:id="@android:id/list"
+            android:layout_width="fill_parent" 
+            android:layout_height="220dip"
+            android:layout_alignParentTop="true"
+            android:choiceMode="singleChoice"
+            android:orientation="horizontal"/>
+            
+         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+
+        	<Button android:id="@+id/add_symbols_button"
+            	android:text="@string/add"
+				android:layout_alignParentRight="true"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content" />
+            
+			<EditText android:id="@+id/stock_symbols"
+				android:layout_alignTop="@id/add_symbols_button"
+				android:layout_toLeftOf="@id/add_symbols_button"
+				android:layout_width="432dip"
+        		android:hint="@string/enter_symbols"
+        		android:editable="true"
+        		android:layout_height="wrap_content"/>
+            	
+		</RelativeLayout>
+        <!-- Here is the view to show if the list is empty -->
+        <TextView android:id="@+id/empty"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:singleLine="true"
+            android:text="@string/no_stocks"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

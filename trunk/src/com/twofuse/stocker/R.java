@@ -14,40 +14,48 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int add_symbols_button=0x7f050006;
-        public static final int button_normal=0x7f050002;
-        public static final int button_small_down=0x7f050003;
-        public static final int change=0x7f05000b;
-        public static final int close=0x7f05001d;
-        public static final int container=0x7f050000;
-        public static final int current=0x7f05000a;
-        public static final int day_high=0x7f050015;
-        public static final int day_high_label=0x7f050014;
-        public static final int day_low=0x7f050013;
-        public static final int day_low_label=0x7f050012;
-        public static final int delete=0x7f05001c;
-        public static final int empty=0x7f050007;
-        public static final int entry_container=0x7f050001;
-        public static final int list_container=0x7f050004;
-        public static final int open=0x7f05000e;
-        public static final int open_label=0x7f05000d;
-        public static final int quote_detail_view=0x7f050008;
-        public static final int row0=0x7f050009;
-        public static final int row1=0x7f05000c;
-        public static final int row2=0x7f050011;
-        public static final int row3=0x7f050016;
-        public static final int row4=0x7f05001b;
-        public static final int stock_symbols=0x7f050005;
-        public static final int volume=0x7f050010;
-        public static final int volume_label=0x7f05000f;
-        public static final int wk_52_high=0x7f05001a;
-        public static final int wk_52_high_label=0x7f050019;
-        public static final int wk_52_low=0x7f050018;
-        public static final int wk_52_low_label=0x7f050017;
+        public static final int add_symbols_button=0x7f05000e;
+        public static final int button_normal=0x7f05000b;
+        public static final int button_small_down=0x7f05000c;
+        public static final int change=0x7f050004;
+        public static final int chart_view=0x7f050020;
+        public static final int close=0x7f050022;
+        public static final int container=0x7f050009;
+        public static final int credit_view=0x7f050000;
+        public static final int current=0x7f050002;
+        public static final int day_high=0x7f05001b;
+        public static final int day_high_label=0x7f05001a;
+        public static final int day_low=0x7f050019;
+        public static final int day_low_label=0x7f050018;
+        public static final int delete=0x7f050021;
+        public static final int empty=0x7f050010;
+        public static final int entry_container=0x7f05000a;
+        public static final int list_container=0x7f05000d;
+        public static final int ok_button=0x7f050008;
+        public static final int open=0x7f050015;
+        public static final int open_label=0x7f050014;
+        public static final int quote_detail_view=0x7f050013;
+        public static final int quote_template=0x7f050011;
+        public static final int row0=0x7f050001;
+        public static final int row1=0x7f050003;
+        public static final int row2=0x7f050005;
+        public static final int row3=0x7f050006;
+        public static final int row4=0x7f050007;
+        public static final int row5=0x7f050023;
+        public static final int stock_symbols=0x7f05000f;
+        public static final int symbol=0x7f050012;
+        public static final int volume=0x7f050017;
+        public static final int volume_label=0x7f050016;
+        public static final int wk_52_high=0x7f05001f;
+        public static final int wk_52_high_label=0x7f05001e;
+        public static final int wk_52_low=0x7f05001d;
+        public static final int wk_52_low_label=0x7f05001c;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int quote_detail=0x7f030001;
+        public static final int credits=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int quote_cell=0x7f030002;
+        public static final int quote_detail=0x7f030003;
     }
     public static final class string {
         public static final int aapl=0x7f040002;
@@ -56,8 +64,9 @@ public final class R {
         public static final int button1=0x7f040003;
         public static final int button2=0x7f040004;
         public static final int close=0x7f040007;
-        public static final int delete=0x7f040008;
+        public static final int delete=0x7f040009;
         public static final int enter_symbols=0x7f040006;
         public static final int no_stocks=0x7f040001;
+        public static final int ok=0x7f040008;
     }
 }
