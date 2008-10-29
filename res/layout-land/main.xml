@@ -62,6 +62,7 @@
 				android:layout_width="432dip"
         		android:hint="@string/enter_symbols"
         		android:editable="true"
+        		android:singleLine="true"
         		android:layout_height="wrap_content"/>
             	
 		</RelativeLayout>
